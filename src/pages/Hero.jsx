@@ -7,7 +7,6 @@ const heroImages = [
   "/img/sfondo3.jpg",
   "/img/sfondo.jpg", // Assicurati che questa immagine esista in public/img/
   "/img/sfondo2.jpg", // Assicurati che questa immagine esista in public/img/
- 
 ];
 
 export const Hero = () => {

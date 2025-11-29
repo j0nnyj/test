@@ -1,367 +1,274 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Star, Sun, Sparkles, Wine, Utensils, Snowflake } from 'lucide-react';
+import { Snowflake, Sun, Sparkles, Utensils, ArrowRight } from 'lucide-react';
 
 export const Menu = () => {
-  // IMPOSTAZIONE MENU INIZIALE
-  // 0 = Classico
-  // 1 = Natale
-  // 2 = Estate
-  // 3 = Gala
-  const [currentIndex, setCurrentIndex] = useState(0); 
-  const [direction, setDirection] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
 
   const menus = [
     {
       id: 0,
       theme: 'classic',
+      label: "Tradizione",
       title: "Degustazione Tradizione",
-      subtitle: "Maggio - Giugno 2025",
-      price: "35€",
+      subtitle: "I Classici 1905",
+      price: "35",
+      currency: "€",
       note: "Bevande escluse",
+      // Immagine verticale/ritratto per il layout
+      image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       courses: [
-        { type: "Antipasto", name: "Tagliere dell'Hosteria", desc: "Selezione di salumi nostrani, giardiniera fatta in casa in agrodolce e formaggi delle valli orobiche" },
-        { type: "Primo", name: "Casoncelli alla Bergamasca", desc: "Fatti a mano secondo la ricetta della nonna, con burro di malga, salvia croccante e pancetta" },
-        { type: "Secondo", name: "Guancialino Brasato", desc: "Cotto 12 ore nel Valcalepio Rosso, servito su letto di polenta taragna macinata a pietra" },
-        { type: "Dolce", name: "Tiramisù del 1905", desc: "La nostra ricetta storica con savoiardi artigianali e caffè espresso" }
+        { type: "Antipasto", name: "Tagliere dell'Hosteria", desc: "Salumi nostrani e giardiniera fatta in casa" },
+        { type: "Primo", name: "Casoncelli alla Bergamasca", desc: "Fatti a mano con burro, salvia e pancetta" },
+        { type: "Secondo", name: "Guancialino Brasato", desc: "Cotto nel Valcalepio con polenta taragna" },
+        { type: "Dolce", name: "Tiramisù del 1905", desc: "Ricetta storica con savoiardi artigianali" }
       ]
     },
     {
       id: 1,
       theme: 'christmas',
-      title: "Pranzo di Natale 2025",
-      subtitle: "25 Dicembre",
-      price: "65€",
+      label: "Natale",
+      title: "Pranzo di Natale",
+      subtitle: "25 Dicembre 2025",
+      price: "65",
+      currency: "€",
       note: "Tutto compreso",
+      image: "https://images.unsplash.com/photo-1543589077-47d81606c1bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       courses: [
-        { 
-          type: "Benvenuto", 
-          name: "Aperitivo dell'Hosteria", 
-          desc: "Bollicina di benvenuto con polpettine fritte e sfoglia al formaggio" 
-        },
-        { 
-          type: "Antipasto", 
-          name: "Il Natale in Hosteria", 
-          desc: "Salame e pancetta nostrani, Prosciutto di Parma, Insalata russa, Peperoni tonnati ripieni, Giardiniera rustica e Gorgonzola di capra con confettura" 
-        },
-        { 
-          type: "Primi", 
-          name: "La Tradizione", 
-          desc: "Scarpinocc fatti a mano burro e salvia e Risotto mantecato con Taleggio DOP, pere e polvere di noci" 
-        },
-        { 
-          type: "Secondi", 
-          name: "Carni e Polenta", 
-          desc: "Faraona ripiena ai Porcini e Guanciale arrosto a lunga cottura con Polenta Taragna" 
-        },
-        { 
-          type: "Dolce", 
-          name: "Panettone Artigianale", 
-          desc: "Con mela candita, cannella e crema montata. Accompagnato da spumante" 
-        },
-        {
-          type: "Cantina",
-          name: "Selezione Vini Inclusa",
-          desc: "Rosso 'Tenuta l’Arco', Sauvignon 'Attems', Prosecco 'San Giuseppe', Moscato 'Saracco'"
-        }
+        { type: "Benvenuto", name: "Aperitivo Natalizio", desc: "Bollicina con sfizi caldi dell'Hosteria" },
+        { type: "Antipasto", name: "Il Gran Tagliere", desc: "Salumi, Insalata russa e Gorgonzola DOP" },
+        { type: "Primi", name: "Tradizione in Tavola", desc: "Scarpinocc fatti a mano e Risotto al Taleggio" },
+        { type: "Secondi", name: "Arrosto delle Feste", desc: "Faraona ai Porcini con Polenta Taragna" },
+        { type: "Dolce", name: "Panettone Artigianale", desc: "Con crema al mascarpone e spumante" }
       ]
     },
     {
       id: 2,
-      theme: 'summer', 
-      title: "Gran Galà di Ferragosto",
+      theme: 'summer',
+      label: "Ferragosto", 
+      title: "Gran Galà Estivo",
       subtitle: "Speciale 15 Agosto",
-      price: "55€",
-      note: "Prenotazione obbligatoria",
+      price: "55",
+      currency: "€",
+      note: "Su prenotazione",
+      image: "https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       courses: [
-        { type: "Entrée", name: "Benvenuto dello Chef", desc: "Tartare di gambero rosso di Mazara con scorzetta di lime e menta fresca" },
-        { type: "Antipasto", name: "Mare e Orto", desc: "Insalatina di mare tiepida con verdure croccanti julienne e olio al basilico" },
-        { type: "Primo", name: "Risotto allo Champagne", desc: "Mantecato con scampi freschi, polvere di agrumi e fiori eduli" },
-        { type: "Secondo", name: "Branzino al Sale", desc: "Filetto di pescato del giorno servito con patate novelle al rosmarino e salsa vergine" },
-        { type: "Dessert", name: "Sinfonia d'Estate", desc: "Semifreddo al frutto della passione con cuore di mango e crumble al cocco" }
+        { type: "Entrée", name: "Benvenuto dello Chef", desc: "Tartare di gambero e lime" },
+        { type: "Antipasto", name: "Mare e Orto", desc: "Insalatina di mare con verdure croccanti" },
+        { type: "Primo", name: "Risotto allo Champagne", desc: "Con scampi freschi e agrumi" },
+        { type: "Secondo", name: "Branzino al Sale", desc: "Pescato del giorno con patate novelle" },
+        { type: "Dessert", name: "Sinfonia d'Estate", desc: "Semifreddo al frutto della passione" }
       ]
     },
     {
       id: 3,
       theme: 'gala',
+      label: "Gala",
       title: "Cena a Lume di Candela",
       subtitle: "Evento Esclusivo",
-      price: "70€",
-      note: "Wine Pairing Incluso",
+      price: "70",
+      currency: "€",
+      note: "Vini inclusi",
+      image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       courses: [
-        { type: "Apertura", name: "Ostriche e Bollicine", desc: "Fine de Claire n.3 con calice di Franciacorta Satèn Millesimato" },
-        { type: "Primo", name: "Tagliolini al Tartufo", desc: "Tartufo nero pregiato scorzone su pasta all'uovo 30 tuorli tirata a mano" },
-        { type: "Secondo", name: "Filetto alla Rossini", desc: "Cuore di filetto con scaloppa di foie gras, tartufo nero e riduzione al Madeira" },
-        { type: "Finale", name: "Oro e Cioccolato", desc: "Lingotto al cioccolato Valrhona, foglia d'oro 24k e lamponi freschi" }
+        { type: "Apertura", name: "Ostriche e Bollicine", desc: "Fine de Claire con Franciacorta" },
+        { type: "Primo", name: "Tagliolini al Tartufo", desc: "Tartufo nero su pasta 30 tuorli" },
+        { type: "Secondo", name: "Filetto alla Rossini", desc: "Con foie gras e tartufo nero" },
+        { type: "Finale", name: "Oro e Cioccolato", desc: "Lingotto Valrhona e oro 24k" }
       ]
     }
   ];
 
-  const nextSlide = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % menus.length);
-  };
-
-  const prevSlide = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev === 0 ? menus.length - 1 : prev - 1));
-  };
-
-  // --- LOGICA SWIPE ---
-  const swipeConfidenceThreshold = 10000;
-  const swipePower = (offset, velocity) => {
-    return Math.abs(offset) * velocity;
-  };
-
-  const handleDragEnd = (e, { offset, velocity }) => {
-    const swipe = swipePower(offset.x, velocity.x);
-
-    if (swipe < -swipeConfidenceThreshold) {
-      nextSlide();
-    } else if (swipe > swipeConfidenceThreshold) {
-      prevSlide();
+  const getThemeColor = (theme) => {
+    switch(theme) {
+      case 'christmas': return 'text-red-800 border-red-800 bg-red-800';
+      case 'summer': return 'text-orange-600 border-orange-600 bg-orange-600';
+      case 'gala': return 'text-amber-500 border-amber-500 bg-amber-500';
+      default: return 'text-emerald-800 border-emerald-800 bg-emerald-800';
     }
   };
-  // --------------------
 
+  const getThemeIcon = (theme) => {
+    switch(theme) {
+      case 'christmas': return <Snowflake className="w-4 h-4" />;
+      case 'summer': return <Sun className="w-4 h-4" />;
+      case 'gala': return <Sparkles className="w-4 h-4" />;
+      default: return <Utensils className="w-4 h-4" />;
+    }
+  };
+
+  const themeColors = getThemeColor(menus[activeTab].theme);
+  const textColor = themeColors.split(' ')[0];
+  const borderColor = themeColors.split(' ')[1];
+  const bgColor = themeColors.split(' ')[2];
+
+  // Varianti Animazione ottimizzate
   const variants = {
     enter: (direction) => ({
-      x: direction > 0 ? 100 : -100, // Aumentato leggermente per effetto entrata più marcato
-      opacity: 0,
-      rotateY: direction > 0 ? 15 : -15,
-      scale: 0.95,
-      zIndex: 0
+      x: 20,
+      opacity: 0
     }),
     center: {
-      zIndex: 1,
       x: 0,
       opacity: 1,
-      rotateY: 0,
-      scale: 1,
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.4, ease: "easeOut" }
     },
     exit: (direction) => ({
-      zIndex: 0,
-      x: direction < 0 ? 100 : -100, // Coerente con la direzione dello swipe
+      x: -20,
       opacity: 0,
-      rotateY: direction < 0 ? 15 : -15,
-      scale: 0.95,
-      transition: { duration: 0.4, ease: "easeIn" }
+      transition: { duration: 0.2, ease: "easeIn" }
     })
   };
 
-  const getThemeStyles = (theme) => {
-    switch(theme) {
-      case 'christmas':
-        return {
-          wrapper: "bg-[#fff5f5] border-2 border-[#c62828]",
-          border: "border border-[#b91c1c] border-opacity-30",
-          accent: "text-[#991b1b]",
-          subAccent: "text-[#b91c1c]", 
-          text: "text-stone-700",
-          icon: <Snowflake className="w-8 h-8 text-[#c62828] animate-pulse" />,
-          btn: "bg-gradient-to-r from-[#991b1b] to-[#ef4444] text-white shadow-red-200",
-          decor: "bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-red-100 via-transparent to-transparent"
-        };
-      case 'summer':
-        return {
-          wrapper: "bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50",
-          border: "border-double border-4 border-orange-200",
-          accent: "text-orange-700",
-          subAccent: "text-orange-600/70",
-          text: "text-stone-700",
-          icon: <Sun className="w-8 h-8 text-orange-500 animate-[spin_10s_linear_infinite]" />,
-          btn: "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-orange-200",
-          decor: "bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-200/20 via-transparent to-transparent"
-        };
-      case 'gala':
-        return {
-          wrapper: "bg-[#1a1a1a] border border-stone-800",
-          border: "border border-[#d4af37]",
-          accent: "text-[#d4af37]",
-          subAccent: "text-[#d4af37]/60",
-          text: "text-stone-300",
-          icon: <Sparkles className="w-6 h-6 text-[#d4af37] animate-pulse" />,
-          btn: "bg-gradient-to-r from-[#d4af37] to-[#b49020] text-black font-bold shadow-[#d4af37]/20",
-          decor: "bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#d4af37]/5 via-transparent to-transparent"
-        };
-      default: // Classic
-        return {
-          wrapper: "bg-[#fffbf0]",
-          border: "border-double border-4 border-[#006400]/20",
-          accent: "text-[#006400]",
-          subAccent: "text-[#006400]/60",
-          text: "text-stone-600",
-          icon: <Utensils className="w-6 h-6 text-[#006400]/40" />,
-          btn: "bg-[#006400] text-white shadow-green-900/10",
-          decor: "bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"
-        };
-    }
-  };
-
-  const theme = getThemeStyles(menus[currentIndex].theme);
-
   return (
-    <section id="menu" className="relative py-24 bg-stone-100 overflow-hidden" data-white-section="true">
-      {/* Background Noise Texture */}
-      <div className="absolute inset-0 opacity-[0.4] mix-blend-multiply pointer-events-none"
-           style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/subtle-white-feathers.png")` }}>
+    // CAMBIATO: min-h-screen (altezza minima ma flessibile) e padding aumentato (py-24 lg:py-32)
+    <section id="menu" className="relative min-h-screen w-full overflow-x-hidden bg-[#fdfbf7] flex flex-col justify-center py-24 lg:py-32" data-white-section="true">
+      
+      {/* Texture Sfondo */}
+      <div className="absolute inset-0 opacity-40 pointer-events-none mix-blend-multiply" 
+           style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/cream-paper.png")` }}>
       </div>
 
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 relative z-10">
         
         {/* Header Sezione */}
-        <div className="text-center mb-12 md:mb-16">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+        <div className="text-center mb-12 lg:mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-block"
+            className="font-serif text-5xl md:text-7xl text-stone-800 mb-6 tracking-tight"
           >
-            <h2 className="font-serif text-5xl md:text-7xl text-[#006400] mb-4 relative z-10">
-              Menù Stagionali
-            </h2>
-            <div className="h-1 w-1/2 mx-auto bg-[#006400]/30 rounded-full mt-2"></div>
-            {/* Indicazione per mobile - appare solo su schermi piccoli */}
-            <p className="md:hidden text-xs uppercase tracking-widest text-stone-400 mt-4 animate-pulse">
-              ← Scorri per vedere i menu →
-            </p>
-          </motion.div>
+            I Nostri Menù
+          </motion.h2>
+          
+          {/* TAB NAVIGATION */}
+          <div className="flex flex-wrap justify-center gap-3 md:gap-6 max-w-5xl mx-auto">
+            {menus.map((menu, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveTab(idx)}
+                className={`relative px-5 py-3 md:px-8 md:py-3 text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-all duration-500 border border-transparent rounded-sm
+                  ${activeTab === idx 
+                    ? `bg-white shadow-xl scale-105 ${getThemeColor(menu.theme).split(' ')[0]}` 
+                    : 'text-stone-400 hover:text-stone-600 hover:bg-white/50'
+                  }
+                `}
+              >
+                <span className="flex items-center gap-3">
+                  {getThemeIcon(menu.theme)}
+                  {menu.label}
+                </span>
+                {activeTab === idx && (
+                  <motion.div 
+                    layoutId="activeTabLine"
+                    className={`absolute bottom-0 left-0 right-0 h-[3px] ${getThemeColor(menu.theme).split(' ')[2]}`}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Navigazione (Freccie visibili su desktop, nascoste o meno rilevanti su mobile ma utili) */}
-        <div className="flex justify-center items-center gap-8 mb-10">
-           <button 
-             onClick={prevSlide}
-             className="p-4 rounded-full bg-white shadow-lg hover:bg-stone-50 text-stone-600 transition-all border border-stone-100 group hover:-translate-x-1"
-           >
-             <ChevronLeft className="w-6 h-6" />
-           </button>
-           
-           <div className="flex gap-2">
-             {menus.map((_, idx) => (
-               <div 
-                 key={idx}
-                 onClick={() => {
-                    setDirection(idx > currentIndex ? 1 : -1);
-                    setCurrentIndex(idx);
-                 }}
-                 className={`h-2 w-2 rounded-full cursor-pointer transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-[#006400]' : 'bg-stone-300 hover:bg-stone-400'}`}
-               />
-             ))}
-           </div>
-
-           <button 
-             onClick={nextSlide}
-             className="p-4 rounded-full bg-white shadow-lg hover:bg-stone-50 text-stone-600 transition-all border border-stone-100 group hover:translate-x-1"
-           >
-             <ChevronRight className="w-6 h-6" />
-           </button>
-        </div>
-
-        {/* AREA CARD */}
-        <div className="max-w-4xl mx-auto min-h-[700px] relative perspective-[2000px]">
-          <AnimatePresence initial={false} custom={direction} mode="wait">
+        {/* CONTENT AREA */}
+        <div className="relative w-full overflow-visible"> 
+          <AnimatePresence mode="wait">
             <motion.div
-              key={currentIndex}
-              custom={direction}
+              key={activeTab}
               variants={variants}
               initial="enter"
               animate="center"
               exit="exit"
-              // PROPRIETÀ DRAG AGGIUNTE
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
-              onDragEnd={handleDragEnd}
-              className={`w-full rounded-sm shadow-2xl overflow-hidden relative ${theme.wrapper} cursor-grab active:cursor-grabbing`}
+              // CAMBIATO: max-w-7xl per allargare la sezione
+              className="flex flex-col lg:flex-row-reverse gap-12 lg:gap-24 items-center max-w-7xl mx-auto w-full"
             >
-              {/* Decorazione Sfondo Specifica per Tema */}
-              <div className={`absolute inset-0 pointer-events-none ${theme.decor} opacity-50`}></div>
               
-              {/* Bordo Interno Decorativo */}
-              <div className={`absolute inset-3 md:inset-5 pointer-events-none ${theme.border}`}></div>
-
-              {/* CONTENUTO MENU */}
-              <div className="relative p-8 md:p-12 lg:p-16 h-full flex flex-col items-center text-center select-none"> {/* select-none per evitare selezione testo durante drag */}
+              {/* COLONNA FOTO (Destra) - Più grande */}
+              <div className="w-full lg:w-1/2 relative group cursor-pointer max-w-lg lg:max-w-none">
+                 <div className={`absolute -inset-3 md:-inset-5 border ${borderColor} opacity-60 transition-all duration-500 group-hover:inset-0 group-hover:opacity-100 z-0`}></div>
                  
-                 {/* Icona o Decorazione Top */}
-                 <div className="mb-6 opacity-80">
-                   {theme.icon}
+                 {/* CAMBIATO: Rimosso max-height restrittivo per far crescere l'immagine */}
+                 <div className="relative z-10 bg-stone-200 overflow-hidden aspect-[3/4] shadow-2xl w-full">
+                    <motion.img 
+                      src={menus[activeTab].image}
+                      alt={menus[activeTab].title}
+                      initial={{ scale: 1.1 }}
+                      animate={{ scale: 1 }}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.7 }}
+                      className="w-full h-full object-cover"
+                    />
+                    
+                    <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay" 
+                         style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/stardust.png")` }}>
+                    </div>
+
+                    {/* Prezzo - Ingrandito */}
+                    <div className="absolute bottom-0 right-0 bg-white p-5 md:p-8 shadow-none border-t border-l border-stone-100">
+                       <div className={`flex items-start leading-none ${textColor}`}>
+                          <span className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter">
+                            {menus[activeTab].price}
+                          </span>
+                          <span className="font-serif text-xl md:text-3xl mt-2 ml-1">{menus[activeTab].currency}</span>
+                       </div>
+                       <p className="text-[10px] md:text-xs uppercase tracking-widest text-stone-400 mt-2 text-right">
+                         a persona
+                       </p>
+                    </div>
+                 </div>
+              </div>
+
+              {/* COLONNA TESTO (Sinistra) */}
+              <div className="w-full lg:w-1/2 flex flex-col justify-center px-2 md:px-0">
+                 {/* Header Menu */}
+                 <div className="mb-8 lg:mb-12 border-l-4 pl-6 lg:pl-8 border-stone-200">
+                   <span className={`text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-2 block ${textColor}`}>
+                     {menus[activeTab].subtitle}
+                   </span>
+                   <h3 className={`font-serif text-3xl md:text-5xl lg:text-7xl leading-[0.9] ${textColor}`}>
+                     {menus[activeTab].title}
+                   </h3>
                  </div>
 
-                 {/* Titoli */}
-                 <h3 className={`font-serif text-3xl md:text-5xl lg:text-6xl font-medium mb-3 tracking-tight ${theme.accent}`}>
-                   {menus[currentIndex].title}
-                 </h3>
-                 <p className={`font-sans uppercase tracking-[0.2em] text-xs md:text-sm font-bold opacity-80 mb-8 ${theme.text}`}>
-                   {menus[currentIndex].subtitle}
-                 </p>
-                 
-                 {/* LISTA PIATTI */}
-                 <div className="w-full space-y-8 md:space-y-10 my-4 text-left md:text-center max-w-2xl">
-                   {menus[currentIndex].courses.map((course, idx) => (
+                 {/* Lista piatti - Spaziatura aumentata */}
+                 <div className="space-y-6 lg:space-y-8 pl-6 lg:pl-8">
+                   {menus[activeTab].courses.map((course, idx) => (
                      <motion.div 
                        key={idx}
-                       initial={{ opacity: 0, y: 10 }}
-                       animate={{ opacity: 1, y: 0 }}
-                       transition={{ delay: 0.3 + (idx * 0.1) }}
+                       initial={{ opacity: 0, x: -10 }}
+                       animate={{ opacity: 1, x: 0 }}
+                       transition={{ delay: 0.1 + (idx * 0.05) }}
                        className="relative group"
                      >
-                        <div className={`text-xs font-bold uppercase tracking-widest mb-1 ${theme.subAccent}`}>
-                          {course.type}
+                        <div className="flex flex-col">
+                          <div className="flex items-baseline gap-3">
+                            <span className={`text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-60 w-20 shrink-0 ${textColor}`}>
+                              {course.type}
+                            </span>
+                            {/* Titoli Piatti più grandi */}
+                            <h4 className={`font-serif text-xl md:text-3xl transition-colors cursor-default ${textColor} brightness-90 group-hover:brightness-110 truncate`}>
+                              {course.name}
+                            </h4>
+                          </div>
+                          <p className="font-serif text-stone-500 italic text-sm md:text-base leading-relaxed pl-24 border-l border-stone-200 ml-[1.1rem] mt-1">
+                            {course.desc}
+                          </p>
                         </div>
-                        <h4 className={`font-serif text-xl md:text-2xl font-medium mb-2 ${theme.text} group-hover:${theme.accent} transition-colors`}>
-                          {course.name}
-                        </h4>
-                        <p className={`font-serif italic opacity-70 text-sm md:text-base leading-relaxed ${theme.text}`}>
-                          {course.desc}
-                        </p>
-                        
-                        {/* Divisore sottile tra i piatti (tranne l'ultimo) */}
-                        {idx !== menus[currentIndex].courses.length - 1 && (
-                          <div className="w-12 h-[1px] bg-current opacity-10 mx-auto mt-6 hidden md:block"></div>
-                        )}
                      </motion.div>
                    ))}
                  </div>
 
-                 {/* FOOTER PREZZO */}
-                 <div className="mt-auto pt-12 w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 border-t border-current border-opacity-10">
-                    <div className="text-center md:text-left">
-                       <span className={`block text-xs uppercase tracking-widest opacity-60 mb-1 ${theme.text}`}>Prezzo a Persona</span>
-                       <div className="flex items-baseline gap-2 justify-center md:justify-start">
-                         <span className={`font-serif text-5xl font-bold ${theme.accent}`}>{menus[currentIndex].price}</span>
-                         {menus[currentIndex].theme === 'gala' && <Wine className="w-5 h-5 opacity-50" />}
-                         {menus[currentIndex].theme === 'christmas' && <Star className="w-5 h-5 opacity-50" />}
-                       </div>
-                       <p className={`text-xs mt-2 opacity-60 italic ${theme.text}`}>{menus[currentIndex].note}</p>
-                    </div>
-
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`px-10 py-4 rounded shadow-lg font-bold uppercase tracking-widest text-sm transition-all hover:shadow-xl ${theme.btn}`}
-                    >
-                      Prenota Ora
-                    </motion.button>
+                 {/* Footer */}
+                 <div className="mt-12 lg:mt-16 pl-6 lg:pl-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                   <button className={`group flex items-center gap-4 px-10 py-4 text-white font-sans text-xs md:text-sm font-bold uppercase tracking-widest transition-all duration-300 shadow-xl ${bgColor} hover:brightness-110`}>
+                     Prenota questo tavolo
+                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                   </button>
+                   <p className="text-xs text-stone-400 italic">
+                     * {menus[activeTab].note}
+                   </p>
                  </div>
-
               </div>
-
-              {/* Decorazioni Angolari Vintage (Solo Classic e Christmas) */}
-              {(menus[currentIndex].theme === 'classic' || menus[currentIndex].theme === 'christmas') && (
-                <>
-                  <svg className={`absolute top-4 left-4 w-12 h-12 opacity-20 pointer-events-none ${menus[currentIndex].theme === 'christmas' ? 'text-red-800' : 'text-[#006400]'}`} viewBox="0 0 100 100" fill="currentColor">
-                    <path d="M0 0v40h10V10h30V0H0z" />
-                    <path d="M10 10v20h20V10H10z" opacity="0.5"/>
-                  </svg>
-                  <svg className={`absolute bottom-4 right-4 w-12 h-12 opacity-20 pointer-events-none rotate-180 ${menus[currentIndex].theme === 'christmas' ? 'text-red-800' : 'text-[#006400]'}`} viewBox="0 0 100 100" fill="currentColor">
-                    <path d="M0 0v40h10V10h30V0H0z" />
-                    <path d="M10 10v20h20V10H10z" opacity="0.5"/>
-                  </svg>
-                </>
-              )}
 
             </motion.div>
           </AnimatePresence>
